@@ -25,7 +25,7 @@ public class ArmouryUtils {
         }
         armouryConfig.getKeys(false)
                 .forEach(key -> {
-                    ItemStack[] content = ((List<ItemStack[]>) armoury.getConfig().get("data." + key)).toArray(new ItemStack[0]);
+                    ItemStack[] content = ((List<ItemStack[]>) armoury.getConfig().get("armoury_data." + key)).toArray(new ItemStack[0]);
                     armouries.put(key, content);
                 });
     }
