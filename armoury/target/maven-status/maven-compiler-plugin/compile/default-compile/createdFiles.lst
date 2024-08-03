@@ -1,0 +1,5 @@
+me\rthom\armoury\Armoury.class
+me\rthom\armoury\listeners\ArmouryListener.class
+me\rthom\armoury\utils\ArmouryUtils.class
+me\rthom\armoury\commands\ArmouryCommand.class
+me\rthom\armoury\helpers\ArmouryHelper.class

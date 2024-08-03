@@ -1,0 +1,12 @@
+name: armoury
+version: '${project.version}'
+main: me.rthom.armoury.Armoury
+api-version: '1.20'
+
+commands:
+  armoury:
+    description: "Armoury command"
+    usage: "/armoury"
+    aliases: [arm]
+    permission: armoury.command.arm
+    permission-message: "You do not have permission to use this command"
