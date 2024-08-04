@@ -1,14 +1,16 @@
 package me.rthom.armoury.listeners;
 
 import me.rthom.armoury.Armoury;
-import org.bukkit.Material;
+import me.rthom.armoury.Keys;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
@@ -36,10 +38,41 @@ public class ArmouryListener implements Listener {
         if (!player.hasMetadata("ArmouryGUI"))
             return;
 
-        if (!(event.getClickedInventory() == player.getOpenInventory().getTopInventory()))
+        Inventory clicked = event.getClickedInventory();
+
+        if (!(clicked == player.getOpenInventory().getTopInventory()))
             return;
 
-        if (event.getCurrentItem().equals(new ItemStack(Material.REDSTONE))) {
+        ItemStack currentItem = event.getCurrentItem();
+
+        if (currentItem == null) {
+            event.setCancelled(true);
+            return;
+        }
+
+        PersistentDataContainer pdc = currentItem.getItemMeta().getPersistentDataContainer();
+
+        if (pdc.has(Keys.CLOSE_MENU)) {
+            event.setCancelled(true);
+            player.closeInventory();
+            return;
+        }
+        if (pdc.has(Keys.UNCLICKABLE)) {
+            event.setCancelled(true);
+            return;
+        }
+    }
+
+    @EventHandler
+    public void onDrag(InventoryDragEvent event) {
+        Player player = (Player) event.getWhoClicked();
+
+        if (!player.hasMetadata("ArmouryGUI"))
+            return;
+
+        Inventory clicked = event.getInventory();
+
+        if (clicked == player.getOpenInventory().getTopInventory()){
             event.setCancelled(true);
         }
     }

@@ -1,8 +1,6 @@
 package me.rthom.armoury.helpers;
 
 import me.rthom.armoury.utils.ItemUtils;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 
 public class ArmouryHelper {
@@ -16,11 +14,13 @@ public class ArmouryHelper {
                 0, 0, 0, 0, 4, 0, 0, 0, 0,
         };
 
-        for(int i = 0; i < slotArray.length; i++) {
+        for (int i = 0; i < slotArray.length; i++) {
             if (slotArray[i] == 1)
-                inv.setItem(i, ItemUtils.createNamedItem(Material.RED_STAINED_GLASS_PANE, "Unusable Slot", ChatColor.RED));
+                inv.setItem(i, ItemUtils.createUnusableSlot());
             if (slotArray[i] == 4)
-                inv.setItem(i, ItemUtils.createNamedItem(Material.BARRIER, "Close"));
+                inv.setItem(i, ItemUtils.createCloseButton());
         }
     }
+
+
 }
