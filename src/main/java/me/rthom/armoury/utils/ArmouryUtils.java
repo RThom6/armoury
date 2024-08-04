@@ -11,21 +11,21 @@ import static me.rthom.armoury.Armoury.armouries;
 
 public class ArmouryUtils {
 
-    public static void saveArmouries(Armoury armoury) {
+    public static void saveArmouries() {
         for (Map.Entry<String, ItemStack[]> entry : armouries.entrySet()) {
-            armoury.getConfig().set("armoury_data." + entry.getKey(), entry.getValue());
+            Armoury.getInstance().getConfig().set("armoury_data." + entry.getKey(), entry.getValue());
         }
-        armoury.saveConfig();
+        Armoury.getInstance().saveConfig();
     }
 
-    public static void restoreArmouries(Armoury armoury) {
-        ConfigurationSection armouryConfig = armoury.getConfig().getConfigurationSection("armoury_data");
+    public static void restoreArmouries() {
+        ConfigurationSection armouryConfig = Armoury.getInstance().getConfig().getConfigurationSection("armoury_data");
         if (armouryConfig == null) {
             return;
         }
         armouryConfig.getKeys(false)
                 .forEach(key -> {
-                    ItemStack[] content = ((List<ItemStack[]>) armoury.getConfig().get("armoury_data." + key)).toArray(new ItemStack[0]);
+                    ItemStack[] content = ((List<ItemStack[]>) Armoury.getInstance().getConfig().get("armoury_data." + key)).toArray(new ItemStack[0]);
                     armouries.put(key, content);
                 });
     }

@@ -18,7 +18,7 @@ public final class Armoury extends JavaPlugin {
 
         saveDefaultConfig();
 
-        ArmouryUtils.restoreArmouries(this);
+        ArmouryUtils.restoreArmouries();
 
         getCommand("armoury").setExecutor(new ArmouryCommand());
     }
@@ -26,7 +26,7 @@ public final class Armoury extends JavaPlugin {
     @Override
     public void onDisable() {
         if (!armouries.isEmpty()) {
-            ArmouryUtils.saveArmouries(this);
+            ArmouryUtils.saveArmouries();
         }
     }
 
