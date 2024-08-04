@@ -18,7 +18,7 @@ public class ArmouryHelper {
             if (slotArray[i] == 1)
                 inv.setItem(i, ItemUtils.createUnusableSlot());
             if (slotArray[i] == 4)
-                inv.setItem(i, ItemUtils.createCloseButton());
+                inv.setItem(i, ItemUtils.createCloseButton(i).getItem());
         }
     }
 

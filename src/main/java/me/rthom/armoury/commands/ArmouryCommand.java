@@ -1,16 +1,12 @@
 package me.rthom.armoury.commands;
 
-import me.rthom.armoury.Armoury;
-import me.rthom.armoury.helpers.ArmouryHelper;
+import me.rthom.armoury.gui.ArmouryGUI;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.metadata.FixedMetadataValue;
-
-import static me.rthom.armoury.Armoury.armouries;
 
 public class ArmouryCommand implements CommandExecutor {
     @Override
@@ -22,19 +18,20 @@ public class ArmouryCommand implements CommandExecutor {
             return true;
         }
 
-        Inventory inv = Bukkit.createInventory(player, 9 * 6, "Armoury Menu");
-
-        if (armouries.containsKey(player.getUniqueId().toString())) {
-            inv.setContents(armouries.get(player.getUniqueId().toString()));
-        } else {
-            ArmouryHelper.setArmouryInventory(inv);
-            armouries.put(player.getUniqueId().toString(), inv.getContents());
+        if (args.length == 0) {
+            openArmoury(player.getName());
         }
 
-        player.openInventory(inv);
-
-        player.setMetadata("ArmouryGUI", new FixedMetadataValue(Armoury.getInstance(), "Armoury Menu"));
-
         return true;
+    }
+
+    private void openArmoury(String playerName) {
+        Player player = Bukkit.getPlayer(playerName);
+
+        if (player == null) {
+            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + playerName + ChatColor.RED + "is not online");
+        }
+
+        ArmouryGUI.createArmouryGUI(player);
     }
 }
