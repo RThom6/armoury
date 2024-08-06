@@ -1,7 +1,7 @@
 package me.rthom.armoury.listeners;
 
 import me.rthom.armoury.Armoury;
-import me.rthom.armoury.buttons.Button;
+import me.rthom.armoury.Keys;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.util.Map;
+import static me.rthom.armoury.Armoury.armouries;
 
 public class ArmouryListener implements Listener {
 
@@ -50,22 +50,17 @@ public class ArmouryListener implements Listener {
             return;
         }
 
-        Map<Integer, Button> buttons = (Map<Integer, Button>) Armoury.getData("buttons")
-                .get(player.getUniqueId().toString());
+        PersistentDataContainer pdc = currentItem.getItemMeta().getPersistentDataContainer();
 
-        buttons.get(event.getSlot()).onClick(player);
-
-//        PersistentDataContainer pdc = currentItem.getItemMeta().getPersistentDataContainer();
-//
-//        if (pdc.has(Keys.CLOSE_MENU)) {
-//            event.setCancelled(true);
-//            player.closeInventory();
-//            return;
-//        }
-//        if (pdc.has(Keys.UNCLICKABLE)) {
-//            event.setCancelled(true);
-//            return;
-//        }
+        if (pdc.has(Keys.CLOSE_MENU)) {
+            event.setCancelled(true);
+            player.closeInventory();
+            return;
+        }
+        if (pdc.has(Keys.UNCLICKABLE)) {
+            event.setCancelled(true);
+            return;
+        }
     }
 
     @EventHandler
@@ -89,10 +84,8 @@ public class ArmouryListener implements Listener {
         if (!player.hasMetadata("ArmouryGUI"))
             return;
 
-        Map<String, ItemStack[]> armoury = (Map<String, ItemStack[]>) Armoury.getData("player_armouries");
-
         if (event.getView().getTitle().equalsIgnoreCase("Armoury Menu")) {
-            armoury.put(event.getPlayer().getUniqueId().toString(), event.getInventory().getContents());
+            armouries.put(event.getPlayer().getUniqueId().toString(), event.getInventory().getContents());
         } else {
             return;
         }

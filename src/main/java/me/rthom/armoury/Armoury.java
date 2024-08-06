@@ -3,14 +3,14 @@ package me.rthom.armoury;
 import me.rthom.armoury.commands.ArmouryCommand;
 import me.rthom.armoury.listeners.ArmouryListener;
 import me.rthom.armoury.utils.ArmouryUtils;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public final class Armoury extends JavaPlugin {
-    //                     Map Identifier
-    public static final Map<String, Map<?, ?>> armouriesData = new HashMap<>();
+    public static Map<String, ItemStack[]> armouries = new HashMap<>();
 
     @Override
     public void onEnable() {
@@ -25,16 +25,12 @@ public final class Armoury extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        if (!armouriesData.isEmpty()) {
+        if (!armouries.isEmpty()) {
             ArmouryUtils.saveArmouries();
         }
     }
 
     public static Armoury getInstance() {
         return getPlugin(Armoury.class);
-    }
-
-    public static Map<?, ?> getData(String dataName) {
-        return armouriesData.get(dataName);
     }
 }
