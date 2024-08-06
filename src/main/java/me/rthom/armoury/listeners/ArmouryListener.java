@@ -51,20 +51,19 @@ public class ArmouryListener implements Listener {
             return;
         }
 
+        Map<Integer, Button> backgroundButtons = ArmouryGUI.getBackgroundMap();
+
+        if (backgroundButtons.containsKey(event.getSlot())) {
+            event.setCancelled(true);
+            return;
+        }
+
         Map<Integer, Button> buttons = ArmouryGUI.getButtonMap();
 
-        event.setCancelled(true);
-        buttons.get(event.getSlot()).onClick(player);
-
-//        if (pdc.has(Keys.CLOSE_MENU)) {
-//            event.setCancelled(true);
-//            player.closeInventory();
-//            return;
-//        }
-//        if (pdc.has(Keys.UNCLICKABLE)) {
-//            event.setCancelled(true);
-//            return;
-//        }
+        if (buttons.containsKey(event.getSlot())) {
+            event.setCancelled(true);
+            buttons.get(event.getSlot()).onClick(player);
+        }
     }
 
     @EventHandler

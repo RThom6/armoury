@@ -105,4 +105,8 @@ public class ArmouryGUI {
     public static Map<Integer, Button> getButtonMap() {
         return buttonMap;
     }
+
+    public static Map<Integer, Button> getBackgroundMap() {
+        return buttonMap;
+    }
 }
