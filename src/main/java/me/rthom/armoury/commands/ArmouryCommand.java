@@ -32,6 +32,6 @@ public class ArmouryCommand implements CommandExecutor {
             Bukkit.getConsoleSender().sendMessage(ChatColor.RED + playerName + ChatColor.RED + "is not online");
         }
 
-        ArmouryGUI.createArmouryGUI(player);
+        new ArmouryGUI().createArmouryGUI(player);
     }
 }

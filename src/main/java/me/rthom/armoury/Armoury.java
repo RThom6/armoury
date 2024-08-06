@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class Armoury extends JavaPlugin {
-    public static Map<String, ItemStack[]> armouries = new HashMap<>();
+    public final Map<String, ItemStack[]> armouries = new HashMap<>();
 
     @Override
     public void onEnable() {

@@ -1,7 +1,9 @@
 package me.rthom.armoury.listeners;
 
 import me.rthom.armoury.Armoury;
-import me.rthom.armoury.Keys;
+import me.rthom.armoury.buttons.Button;
+import me.rthom.armoury.gui.ArmouryGUI;
+import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,7 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import static me.rthom.armoury.Armoury.armouries;
+import java.util.Map;
 
 public class ArmouryListener implements Listener {
 
@@ -52,15 +54,23 @@ public class ArmouryListener implements Listener {
 
         PersistentDataContainer pdc = currentItem.getItemMeta().getPersistentDataContainer();
 
-        if (pdc.has(Keys.CLOSE_MENU)) {
-            event.setCancelled(true);
-            player.closeInventory();
-            return;
-        }
-        if (pdc.has(Keys.UNCLICKABLE)) {
-            event.setCancelled(true);
-            return;
-        }
+        ArmouryGUI gui = (ArmouryGUI) player.getMetadata("ArmouryGUI").get(0).value();
+
+        Map<Integer, Button> buttons = gui.getButtonMap();
+
+        event.setCancelled(true);
+        buttons.get(event.getSlot()).onClick(player);
+        Bukkit.getLogger().info("here 3");
+
+//        if (pdc.has(Keys.CLOSE_MENU)) {
+//            event.setCancelled(true);
+//            player.closeInventory();
+//            return;
+//        }
+//        if (pdc.has(Keys.UNCLICKABLE)) {
+//            event.setCancelled(true);
+//            return;
+//        }
     }
 
     @EventHandler
@@ -85,7 +95,7 @@ public class ArmouryListener implements Listener {
             return;
 
         if (event.getView().getTitle().equalsIgnoreCase("Armoury Menu")) {
-            armouries.put(event.getPlayer().getUniqueId().toString(), event.getInventory().getContents());
+            Armoury.getInstance().armouries.put(event.getPlayer().getUniqueId().toString(), event.getInventory().getContents());
         } else {
             return;
         }
