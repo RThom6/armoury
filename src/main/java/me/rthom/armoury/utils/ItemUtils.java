@@ -50,7 +50,7 @@ public class ItemUtils {
     public static Button createCloseButton(int slot) {
         ItemStack button = ItemUtils.createNamedItem(Material.BARRIER, "Close", ChatColor.RED);
 
-        final Button closeButton = new Button(slot, button) {
+        return new Button(slot, button) {
             @Override
             public ItemStack getItem() {
                 return ItemUtils.createNamedItem(Material.BARRIER, "Close", ChatColor.RED);
@@ -58,25 +58,28 @@ public class ItemUtils {
 
             @Override
             public void onClick(Player player) {
-                Bukkit.getScheduler().runTaskLater(Armoury.getInstance(), player::closeInventory, 1);
+                Bukkit.getScheduler().runTaskLater(Armoury.getInstance(), player::closeInventory, 2);
+            }
+        };
+    }
+
+    public static Button createBackgroundButton(int slot) {
+        ItemStack button = createNamedItem(Material.RED_STAINED_GLASS_PANE, "Unusable", ChatColor.RED);
+
+        final Button backgroundButton = new Button(slot, button) {
+            @Override
+            public void onClick(Player player) {
+                // Do nothing
             }
         };
 
-        return closeButton;
-    }
-
-    public static ItemStack createUnusableSlot() {
-        ItemStack closeMenu = createNamedItem(Material.RED_STAINED_GLASS_PANE, "Unusable", ChatColor.RED);
-
-        ItemUtils.setLore(closeMenu, "Cannot store item here");
-
-        ItemMeta meta = closeMenu.getItemMeta();
+        ItemMeta meta = button.getItemMeta();
 
         if (meta != null) {
             meta.getPersistentDataContainer().set(Keys.UNCLICKABLE, PersistentDataType.BOOLEAN, true);
-            closeMenu.setItemMeta(meta);
+            button.setItemMeta(meta);
         }
 
-        return closeMenu;
+        return backgroundButton;
     }
 }

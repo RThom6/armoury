@@ -1,7 +1,11 @@
-me\rthom\armoury\Keys.class
 me\rthom\armoury\Armoury.class
 me\rthom\armoury\listeners\ArmouryListener.class
+me\rthom\armoury\utils\ItemUtils$1.class
 me\rthom\armoury\utils\ArmouryUtils.class
-me\rthom\armoury\commands\ArmouryCommand.class
+me\rthom\armoury\buttons\Button.class
 me\rthom\armoury\utils\ItemUtils.class
 me\rthom\armoury\helpers\ArmouryHelper.class
+me\rthom\armoury\Keys.class
+me\rthom\armoury\gui\ArmouryGUI.class
+me\rthom\armoury\commands\ArmouryCommand.class
+me\rthom\armoury\utils\ItemUtils$2.class
