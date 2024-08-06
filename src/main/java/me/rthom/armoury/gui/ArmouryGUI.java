@@ -1,7 +1,6 @@
 package me.rthom.armoury.gui;
 
 import me.rthom.armoury.Armoury;
-import me.rthom.armoury.Keys;
 import me.rthom.armoury.buttons.Button;
 import me.rthom.armoury.utils.ItemUtils;
 import org.bukkit.Bukkit;
@@ -10,9 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.persistence.PersistentDataType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,16 +25,16 @@ public class ArmouryGUI {
 
         if (armouries.containsKey(player.getUniqueId().toString())) {
             inv.setContents(armouries.get(player.getUniqueId().toString()));
-            restoreButtonsFromInventory(inv);
+            repopulateArmouryInventory(inv);
         } else {
-            createArmouryInventory(inv, player);
+            createNewArmouryInventory(inv);
             armouries.put(player.getUniqueId().toString(), inv.getContents());
         }
         player.setMetadata("ArmouryGUI", new FixedMetadataValue(Armoury.getInstance(), this));
         player.openInventory(inv);
     }
 
-    public void createArmouryInventory(Inventory inv, Player player) {
+    private void createNewArmouryInventory(Inventory inv) {
         int[] slotArray = {
                 1, 1, 1, 0, 0, 0, 1, 1, 1,
                 1, 1, 1, 0, 0, 0, 1, 1, 1,
@@ -57,20 +54,24 @@ public class ArmouryGUI {
         }
     }
 
-    private void restoreButtonsFromInventory(Inventory inv) {
-        ItemStack[] items = inv.getContents();
-        for (int i = 0; i < items.length; i++) {
-            ItemStack item = items[i];
-            if (item != null) {
-                ItemMeta meta = item.getItemMeta();
-                if (meta != null && meta.getPersistentDataContainer().has(Keys.UNCLICKABLE, PersistentDataType.BOOLEAN)) {
-                    backgroundButtonMap.put(i, createBackgroundButton(i));
-                } else if (meta != null && meta.getPersistentDataContainer().has(Keys.CLOSE_MENU, PersistentDataType.BOOLEAN)) {
-                    Bukkit.getLogger().info("Added close button!");
-                    buttonMap.put(i, createCloseButton(i));
-                } else {
-                    Bukkit.getLogger().info("Failed to add" + meta.getDisplayName());
-                }
+    private void repopulateArmouryInventory(Inventory inv) {
+        int[] slotArray = {
+                1, 1, 1, 0, 0, 0, 1, 1, 1,
+                1, 1, 1, 0, 0, 0, 1, 1, 1,
+                1, 1, 1, 0, 0, 0, 1, 1, 1,
+                1, 1, 1, 0, 0, 0, 1, 1, 1,
+                0, 0, 0, 2, 2, 2, 0, 0, 0,
+                0, 0, 0, 0, 4, 0, 0, 0, 0,
+        };
+
+        for (int i = 0; i < slotArray.length; i++) {
+            if (slotArray[i] == 1) {
+                inv.setItem(i, createBackgroundButton(i).getItem());
+                backgroundButtonMap.put(i, createBackgroundButton(i));
+            }
+            if (slotArray[i] == 4) {
+                inv.setItem(i, createCloseButton(i).getItem());
+                buttonMap.put(i, createCloseButton(i));
             }
         }
     }
@@ -90,13 +91,6 @@ public class ArmouryGUI {
             }
         };
 
-        ItemMeta meta = button.getItemMeta();
-
-        if (meta != null) { // Isn't actually persistent
-            meta.getPersistentDataContainer().set(Keys.CLOSE_MENU, PersistentDataType.BOOLEAN, true);
-            button.setItemMeta(meta);
-        }
-
         buttonMap.put(slot, closeButton);
 
         return closeButton;
@@ -111,13 +105,6 @@ public class ArmouryGUI {
                 // Do nothing
             }
         };
-
-        ItemMeta meta = button.getItemMeta();
-
-        if (meta != null) {
-            meta.getPersistentDataContainer().set(Keys.UNCLICKABLE, PersistentDataType.BOOLEAN, true);
-            button.setItemMeta(meta);
-        }
 
         backgroundButtonMap.put(slot, backgroundButton);
 
