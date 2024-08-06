@@ -25,16 +25,16 @@ public class ArmouryGUI {
 
         if (armouries.containsKey(player.getUniqueId().toString())) {
             inv.setContents(armouries.get(player.getUniqueId().toString()));
-            repopulateArmouryInventory(inv);
+            createArmouryInventory(inv);
         } else {
-            createNewArmouryInventory(inv);
+            createArmouryInventory(inv);
             armouries.put(player.getUniqueId().toString(), inv.getContents());
         }
         player.setMetadata("ArmouryGUI", new FixedMetadataValue(Armoury.getInstance(), this));
         player.openInventory(inv);
     }
 
-    private void createNewArmouryInventory(Inventory inv) {
+    private void createArmouryInventory(Inventory inv) {
         int[] slotArray = {
                 1, 1, 1, 0, 0, 0, 1, 1, 1,
                 1, 1, 1, 0, 0, 0, 1, 1, 1,
@@ -50,28 +50,6 @@ public class ArmouryGUI {
             }
             if (slotArray[i] == 4) {
                 inv.setItem(i, createCloseButton(i).getItem());
-            }
-        }
-    }
-
-    private void repopulateArmouryInventory(Inventory inv) {
-        int[] slotArray = {
-                1, 1, 1, 0, 0, 0, 1, 1, 1,
-                1, 1, 1, 0, 0, 0, 1, 1, 1,
-                1, 1, 1, 0, 0, 0, 1, 1, 1,
-                1, 1, 1, 0, 0, 0, 1, 1, 1,
-                0, 0, 0, 2, 2, 2, 0, 0, 0,
-                0, 0, 0, 0, 4, 0, 0, 0, 0,
-        };
-
-        for (int i = 0; i < slotArray.length; i++) {
-            if (slotArray[i] == 1) {
-                inv.setItem(i, createBackgroundButton(i).getItem());
-                backgroundButtonMap.put(i, createBackgroundButton(i));
-            }
-            if (slotArray[i] == 4) {
-                inv.setItem(i, createCloseButton(i).getItem());
-                buttonMap.put(i, createCloseButton(i));
             }
         }
     }
