@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ArmouryGUI {
-    private Map<Integer, Button> buttonMap = new HashMap<>();
+    private static Map<Integer, Button> buttonMap = new HashMap<>();
     private Map<Integer, Button> backgroundButtonMap = new HashMap<>();
 
     public void createArmouryGUI(Player player) {
@@ -137,7 +137,7 @@ public class ArmouryGUI {
         return armourSlot;
     }
 
-    public Map<Integer, Button> getButtonMap() {
+    public static Map<Integer, Button> getButtonMap() {
         return buttonMap;
     }
 }

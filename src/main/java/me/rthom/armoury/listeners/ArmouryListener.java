@@ -3,7 +3,6 @@ package me.rthom.armoury.listeners;
 import me.rthom.armoury.Armoury;
 import me.rthom.armoury.buttons.Button;
 import me.rthom.armoury.gui.ArmouryGUI;
-import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -52,15 +51,10 @@ public class ArmouryListener implements Listener {
             return;
         }
 
-        PersistentDataContainer pdc = currentItem.getItemMeta().getPersistentDataContainer();
-
-        ArmouryGUI gui = (ArmouryGUI) player.getMetadata("ArmouryGUI").get(0).value();
-
-        Map<Integer, Button> buttons = gui.getButtonMap();
+        Map<Integer, Button> buttons = ArmouryGUI.getButtonMap();
 
         event.setCancelled(true);
         buttons.get(event.getSlot()).onClick(player);
-        Bukkit.getLogger().info("here 3");
 
 //        if (pdc.has(Keys.CLOSE_MENU)) {
 //            event.setCancelled(true);
