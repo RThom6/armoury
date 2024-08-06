@@ -1,0 +1,8 @@
+<project name="rthom-Armoury" default="Build">
+    <target name="Armoury">
+        <jar jarfile="E:\Code\spigot\plugins\${ant.project.name}.jar"
+             basedir="./target/classes/"
+             includes="**/*">
+        </jar>
+    </target>
+</project>
