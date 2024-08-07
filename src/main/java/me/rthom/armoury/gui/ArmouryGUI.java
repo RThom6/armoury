@@ -1,22 +1,26 @@
 package me.rthom.armoury.gui;
 
 import me.rthom.armoury.Armoury;
+import me.rthom.armoury.Keys;
 import me.rthom.armoury.buttons.Button;
 import me.rthom.armoury.utils.ItemUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class ArmouryGUI {
     private static Map<Integer, Button> buttonMap = new HashMap<>();
-    private Map<Integer, Button> backgroundButtonMap = new HashMap<>();
+    private static Map<Integer, Button> backgroundButtonMap = new HashMap<>();
 
     public void createArmouryGUI(Player player) {
         Inventory inv = Bukkit.createInventory(player, 9 * 6, "Armoury Menu");
@@ -45,11 +49,10 @@ public class ArmouryGUI {
         };
 
         for (int i = 0; i < slotArray.length; i++) {
-            if (slotArray[i] == 1) {
-                inv.setItem(i, createBackgroundButton(i).getItem());
-            }
-            if (slotArray[i] == 4) {
-                inv.setItem(i, createCloseButton(i).getItem());
+            switch (slotArray[i]) {
+                case 1 -> inv.setItem(i, createBackgroundButton(i).getItem());
+                case 2 -> inv.setItem(i, createArmourySlot(i).getItem());
+                case 4 -> inv.setItem(i, createCloseButton(i).getItem());
             }
         }
     }
@@ -60,7 +63,7 @@ public class ArmouryGUI {
         Button closeButton = new Button(slot, button) {
             @Override
             public ItemStack getItem() {
-                return ItemUtils.createNamedItem(Material.BARRIER, "Close", ChatColor.RED);
+                return button;
             }
 
             @Override
@@ -89,17 +92,28 @@ public class ArmouryGUI {
         return backgroundButton;
     }
 
-    public Button createArmourySlot(int slot, String armourPiece) {
+    public Button createArmourySlot(int slot) {
         ItemStack button = ItemUtils.createNamedItem(Material.WHITE_STAINED_GLASS_PANE, "armourPiece", ChatColor.DARK_PURPLE);
 
-        final Button armourSlot = new Button(slot, button) {
+        final Button armourySlot = new Button(slot, button) {
             @Override
             public void onClick(Player player) {
 
             }
         };
 
-        return armourSlot;
+        addItemNBT(button, Keys.TRINKETS_WEAPON);
+
+        return armourySlot;
+    }
+
+    // Gives item a persistent data tag
+    private void addItemNBT(ItemStack item, NamespacedKey key) {
+        ItemMeta meta = item.getItemMeta();
+
+        meta.getPersistentDataContainer().set(key, PersistentDataType.BOOLEAN, true);
+
+        item.setItemMeta(meta);
     }
 
     public static Map<Integer, Button> getButtonMap() {
@@ -107,6 +121,6 @@ public class ArmouryGUI {
     }
 
     public static Map<Integer, Button> getBackgroundMap() {
-        return buttonMap;
+        return backgroundButtonMap;
     }
 }
