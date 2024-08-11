@@ -102,7 +102,7 @@ public class ArmouryGUI {
             }
         };
 
-        addItemNBT(button, Keys.TRINKETS_WEAPON);
+        addItemNBT(button, Keys.TRINKETS_SLOT);
 
         return armourySlot;
     }

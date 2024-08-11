@@ -13,7 +13,7 @@ public class ItemUtils {
         ItemMeta meta = item.getItemMeta();
 
         if (meta != null) {
-            meta.setDisplayName(colour.toString() + ChatColor.BOLD.toString() + name);
+            meta.setDisplayName(colour.toString() + name);
             item.setItemMeta(meta);
         }
 
@@ -25,7 +25,7 @@ public class ItemUtils {
         ItemMeta meta = item.getItemMeta();
 
         if (meta != null) {
-            meta.setDisplayName(ChatColor.BOLD + name);
+            meta.setDisplayName(name);
             item.setItemMeta(meta);
         }
 

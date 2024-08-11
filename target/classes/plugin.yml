@@ -7,6 +7,12 @@ commands:
   armoury:
     description: "Armoury command"
     usage: "/armoury"
-    aliases: [arm]
-    permission: armoury.command.arm
+    aliases: [ arm ]
+    permission: armoury.command.armoury
     permission-message: "You do not have permission to use this command"
+
+permissions:
+  armoury.command.armoury:
+    default: true
+  armoury.command.armoury.others:
+    default: op
