@@ -1,12 +1,16 @@
 package me.rthom.armoury.commands;
 
+import me.rthom.armoury.Keys;
 import me.rthom.armoury.gui.ArmouryGUI;
+import me.rthom.armoury.utils.ItemUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public class ArmouryCommand implements CommandExecutor {
     @Override
@@ -33,8 +37,13 @@ public class ArmouryCommand implements CommandExecutor {
             player.sendMessage(ChatColor.RED + "You don't have permission to view other players' armoury");
             return false;
         } else {
-            openArmoury(args[0]);
+            openArmoury(args[0], player);
         }
+
+        ItemStack item = ItemUtils.createNamedItem(Material.ACACIA_FENCE, "silly item", ChatColor.DARK_AQUA);
+        ItemUtils.addItemNBT(item, Keys.TRINKETS_WEAPON);
+
+        player.getInventory().setItem(1, item);
 
         return true;
     }
@@ -43,12 +52,14 @@ public class ArmouryCommand implements CommandExecutor {
      * Private method to open armoury of player specified
      *
      * @param playerName name of player, must be online
+     * @param sender player that sent command
      */
-    private void openArmoury(String playerName) {
+    private void openArmoury(String playerName, Player sender) {
         Player player = Bukkit.getPlayer(playerName);
 
         if (player == null) {
-            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + playerName + ChatColor.RED + "doesn't exist or is not online");
+            sender.sendMessage(ChatColor.RED + playerName + ChatColor.RED + " is not online or does not exist");
+            return;
         }
 
         new ArmouryGUI().createArmouryGUI(player);
@@ -62,6 +73,7 @@ public class ArmouryCommand implements CommandExecutor {
     private void openArmoury(Player player) {
         if (player == null) {
             Bukkit.getConsoleSender().sendMessage("Player is invalid");
+            return;
         }
 
         new ArmouryGUI().createArmouryGUI(player);

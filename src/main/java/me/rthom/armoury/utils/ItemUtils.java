@@ -2,8 +2,10 @@ package me.rthom.armoury.utils;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.Arrays;
 
@@ -37,6 +39,15 @@ public class ItemUtils {
 
         if (meta != null)
             meta.setLore(Arrays.asList(ChatColor.GRAY + lore));
+
+        item.setItemMeta(meta);
+    }
+
+    // Gives item a persistent data tag
+    public static void addItemNBT(ItemStack item, NamespacedKey key) {
+        ItemMeta meta = item.getItemMeta();
+
+        meta.getPersistentDataContainer().set(key, PersistentDataType.BOOLEAN, true);
 
         item.setItemMeta(meta);
     }

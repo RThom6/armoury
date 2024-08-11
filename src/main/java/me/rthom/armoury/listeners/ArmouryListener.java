@@ -4,6 +4,7 @@ import me.rthom.armoury.Armoury;
 import me.rthom.armoury.Keys;
 import me.rthom.armoury.buttons.Button;
 import me.rthom.armoury.gui.ArmouryGUI;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -76,30 +77,21 @@ public class ArmouryListener implements Listener {
         player.removeMetadata("ArmouryGUI", Armoury.getInstance());
     }
 
+    // Check if vice versa
     private boolean checkTrinket(InventoryClickEvent event) {
         if (!(event.getAction() == InventoryAction.SWAP_WITH_CURSOR)) {
             return false;
         }
 
         ItemStack item = event.getCurrentItem();
-        ItemMeta meta = item.getItemMeta();
 
-        if (meta == null) {
+        if (!itemHasKey(item, Keys.TRINKETS_SLOT)) {
             return false;
         }
 
-        PersistentDataContainer container = meta.getPersistentDataContainer();
+        ItemStack heldItem = event.getCursor();
 
-        if (!container.has(Keys.TRINKETS_SLOT)) {
-            return false;
-        }
-
-        ItemStack cursorItem = event.getCursor();
-        ItemMeta cursorMeta = cursorItem.getItemMeta();
-
-        PersistentDataContainer cursorContainer = cursorMeta.getPersistentDataContainer();
-
-        if (!container.has(Keys.TRINKETS_WEAPON)) {
+        if (!itemHasKey(heldItem, Keys.TRINKETS_WEAPON)) {
             return false;
         } else {
             Player player = (Player) event.getWhoClicked();
@@ -109,6 +101,22 @@ public class ArmouryListener implements Listener {
         return true;
     }
 
+    private boolean itemHasKey(ItemStack item, NamespacedKey key) {
+        if (item == null) {
+            throw new NullPointerException("Item is null");
+        }
+
+        ItemMeta itemMeta = item.getItemMeta();
+        if (itemMeta == null) {
+            throw new NullPointerException("Item meta is null");
+        }
+
+        PersistentDataContainer container = itemMeta.getPersistentDataContainer();
+
+        return container.has(key);
+    }
+
+    // Irrelevant?
     private void removeItem(ItemStack item, Player player) {
         player.getInventory().remove(item);
     }

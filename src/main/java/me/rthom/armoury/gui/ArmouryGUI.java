@@ -7,13 +7,10 @@ import me.rthom.armoury.utils.ItemUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.persistence.PersistentDataType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,7 +26,7 @@ public class ArmouryGUI {
 
         if (armouries.containsKey(player.getUniqueId().toString())) {
             inv.setContents(armouries.get(player.getUniqueId().toString()));
-            createArmouryInventory(inv);
+//            createArmouryInventory(inv);
         } else {
             createArmouryInventory(inv);
             armouries.put(player.getUniqueId().toString(), inv.getContents());
@@ -102,18 +99,9 @@ public class ArmouryGUI {
             }
         };
 
-        addItemNBT(button, Keys.TRINKETS_SLOT);
+        ItemUtils.addItemNBT(button, Keys.TRINKETS_SLOT);
 
         return armourySlot;
-    }
-
-    // Gives item a persistent data tag
-    private void addItemNBT(ItemStack item, NamespacedKey key) {
-        ItemMeta meta = item.getItemMeta();
-
-        meta.getPersistentDataContainer().set(key, PersistentDataType.BOOLEAN, true);
-
-        item.setItemMeta(meta);
     }
 
     public static Map<Integer, Button> getButtonMap() {
